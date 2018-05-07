@@ -4,27 +4,22 @@
 	<title>Fable-Player</title>
 	<script type="text/javascript" src="lib/angular.js"></script>
 	<script type="text/javascript" src="lib/angular-simple-sprite.js"></script>
-	<script type="text/javascript" src="../FableJS/main.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/animate.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<script src="http://www.w3schools.com/lib/w3data.js"></script>
 </head>
 <body>
 	<fable width="1000px" height="600px" bg-sound="graphics/montagne.mp3">
-			<page id="1" bg-image="graphics/BG.png" transition="animated fadeIn">
+			<page id="1" bg-image="graphics/BG.png" transition="fadeIn">
 				<div class="title" id="title" style="position: relative; left:200px; top:50px;"
-					transition="animated bounce">O pequeno cavaleiro</div>
-					<on-touch>
-						<audio id="audioTeste" src="graphics/alone.mp3" role="play"></audio>
-					</on-touch>
+					transition="fadeIn">O pequeno cavaleiro</div>
 				<!--cavaleiro e historia-->
 				<img  src="graphics/char1.png" width="100" height="130" x="100" y="300"></img>
 				<agent id="inicio">
 					<state id="text1">
 						<on-touch>
 							<div style="position: absolute; left: 250px; top: 220px; font-size:30px; width:400px;">
-				            	<p transition="animated fadeIn">Era uma vez um pequeno cavaleiro que recebeu uma carta de um amigo.</p>
+				            	<p transition="fadeIn">Era uma vez um pequeno cavaleiro que recebeu uma carta de um amigo.</p>
 				        	</div>
 							<target start="inicio#text2">
 						</on-touch>
@@ -32,7 +27,7 @@
 					<state id="text2">
 						<on-touch>
 							<div style="position: absolute; left: 250px; top: 220px; font-size:30px; width:400px;">
-				            	<p transition="animated fadeIn" >Ele ficou muito muito muito surpreso, pois esse amigo tinha sumido a anos.</p>
+				            	<p transition="fadeIn" >Ele ficou muito muito muito surpreso, pois esse amigo tinha sumido a anos.</p>
 				        	</div>
 							<target start="inicio#text3">
 						</on-touch>
@@ -40,18 +35,18 @@
 					<state id="text3">
 						<on-touch>
 							<div style="position: absolute; left: 250px; top: 210px; font-size:30px; width:400px;">
-				           		<p transition="animated fadeIn">Só que as noticias na carta não eram muito boas. O seu amigo tinha contraído uma doença misteriosa e precisava 	de ajuda para pegar a cura.</p>
+				           		<p transition="fadeIn">Só que as noticias na carta não eram muito boas. O seu amigo tinha contraído uma doença misteriosa e precisava 	de ajuda para pegar a cura.</p>
 				        	</div>
 							<target start="inicio#text4">
 						</on-touch>
 					</state>
 					<state id="text4">
 						<on-touch>
-							<img src="graphics/sign2.png" x="600" y="500" transition="animated infinite tada">
+							<img src="graphics/sign2.png" x="600" y="500" transition="tada">
 							<target start="page#2">
 						</on-touch>
 						<div style="position: absolute; left: 250px; top: 220px; font-size:30px; width:400px;">
-				        	<p transition="animated fadeIn">O mais rápido que pôde ele foi ao encontro desse amigo.</p>
+				        	<p transition="fadeIn">O mais rápido que pôde ele foi ao encontro desse amigo.</p>
 				        </div>
 					</state>
 				</agent>
@@ -73,19 +68,18 @@
 							<img id="um" src="graphics/bush.png" x="50" y="505"/>
 							<audio id="audioTeste" src="graphics/bush_sound.wav" role="play"></audio>
 							<set target="hasKey" value="true"></set>
-							<target start="bush1#verificado">	
+							<target start="bush1#verificado">
 						</on-touch>
 					</state>
 					<state id="verificado">
+						<div style="position: absolute; left: 300px; top: 50px; font-size:30px; width:500px;">
+							<p transition="tada">Legal!! Você encontrou o chave!! Arraste-a até a porta para abri-la.</p>
+						</div>
+						<img id="keyEntrada" src="graphics/key.png" draggable x="150" y="305" width="40" height="20">
 						<on-touch>
 							<alert on-start="true">chave encontrada!</alert>
 							<img id="um" src="graphics/bush.png" x="50" y="505"/>
 						</on-touch>
-						<div style="position: absolute; left: 300px; top: 50px; font-size:30px; width:500px;">
-							<p transition="animated jello">Legal!! Você encontrou o chave!! Arraste-a até a porta para abri-la.</p>
-						</div>
-						<img transition="animated fadeIn" id="keyEntrada" src="graphics/key.png" draggable x="150" y="305" width="40" height="20">
-						
 					</state>
 				</agent>
 				<agent id="bush2">
@@ -161,7 +155,7 @@
 					</on-touch>
 				</state>
 				<state id="aberta">
-					<img transition="animated fadeOut" id="caixa" src="graphics/box.png" x="200" y="200" width="120" height="120"/>
+					<img transition="fadeOut" id="caixa" src="graphics/box.png" x="200" y="200" width="120" height="120"/>
 				</state>
 			</agent>
 			<agent id="caixa2">
@@ -173,16 +167,12 @@
 					</on-touch>
 				</state>
 				<state id="aberta">
-					<img transition="animated fadeOut" id="caixa" src="graphics/box.png" x="600" y="200" width="120" height="120"/>
-					
+					<img transition="fadeOut" id="caixa" src="graphics/box.png" x="600" y="200" width="120" height="120"/>
 					<on-touch>
-						<alert>Elixir encontrado</alert>		
-						<img  transition="animated fadeIn" src="graphics/mush.png" x="600" y="200" width="60" height="60"/>
-						<target start="caixa2#encontrado"></target>
+						<img  src="graphics/mush.png" x="600" y="200" width="60" height="60"/>
+						<alert>Elixir encontrado</alert>
+						<target start="elixir#encontrado"></target>
 					</on-touch>
-				</state>
-				<state id="encontrado">
-					<img  transition="animated fadeOut" src="graphics/mush.png" x="600" y="200" width="60" height="60"/>
 				</state>
 			</agent>
 			
@@ -190,12 +180,12 @@
 				<state id="fechada">
 					<on-touch>
 						<img id="caixa" src="graphics/box.png"  x="350" y="350" width="120" height="120">
-						<target start="caixa3#aberta">
 						<alert>caixa vazia</alert>
+						<target start="caixa3#aberta">
 					</on-touch>
 				</state>
 				<state id="aberta">
-					<img id="caixa" src="graphics/box.png" transition="animated fadeOut" x="350" y="350" width="120" height="120">
+					<img id="caixa" src="graphics/box.png" transition="fadeOut" x="350" y="350" width="120" height="120">
 				</state>
 			</agent>
 			<agent id="porta_esquerda">
@@ -247,7 +237,7 @@
 				</state>
 				<!--estado do amigo morrendo-->
 				<state id="morto">
-					<board set-class="classic-board" width="400" height="200" x="200" y="100" color="white">
+					<board set-class="classic-board" width="400" x="200" y="100" color="white">
 						Oh não você esqueceu o elixir!! Morrir!!
 					</board>
 					<animation speed="10" y="430" x="600" repeat="no" width="100" height="130">
