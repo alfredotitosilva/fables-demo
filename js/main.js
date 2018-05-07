@@ -509,35 +509,6 @@ var Sound = (function(){
   return Sound;
 }());
 
-//<property>
-app.directive('property',function(){
-  return{
-    restrict: 'E',
-    link: function(scope, elem, attr, ctrl){
-      var prop = new Property(attr.name, attr.value);
-      console.log("criei property");
-      Elements.addProperty(prop);
-    }
-  }
-});
-
-//class Property
-var Property = (function(){
-  function Property(id, value){
-    this.id = id;
-    this.value = value;
-  }
-
-  Property.prototype.setValue = function(value){
-    this.value = value;
-  }
-
-  Property.prototype.getValue = function(){
-    return this.value;
-  }
-
-  return Property;
-}());
 
 //<set>
 app.directive('set',function(){
