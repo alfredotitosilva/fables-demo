@@ -4,127 +4,156 @@
 	<title>Fable-Player</title>
 	<script type="text/javascript" src="lib/angular.js"></script>
 	<script type="text/javascript" src="lib/angular-simple-sprite.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="../FableJS/main.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
 	<fable width="1000px" height="600px" bg-sound="graphics/montagne.mp3">
-			<page id="1" bg-image="graphics/BG.png" transition="fadeIn">
-				<div class="title" id="title" style="position: relative; left:200px; top:50px;"
-					transition="fadeIn">O pequeno cavaleiro</div>
+			<page id="1" bg-image="graphics/BG.png" transition="animated fadeIn">
+				<div class="title" id="title" left="200" top="50" transition="animated bounce">O pequeno cavaleiro</div>
 				<!--cavaleiro e historia-->
-				<img  src="graphics/char1.png" width="100" height="130" x="100" y="300"></img>
+				<img  src="graphics/char1.png" width="100" height="130" left="100" top="300"></img>
+				<img src="graphics/block.png" left="90"  top="421"/>
+
 				<agent id="inicio">
 					<state id="text1">
+						<div left="250" top="220" width="400" font-size="30" font-color="#AA6BFFFF">
+			            	<p transition="animated fadeIn">Era uma vez um pequeno cavaleiro que recebeu uma carta de um amigo.</p>
+			        	</div>
 						<on-touch>
-							<div style="position: absolute; left: 250px; top: 220px; font-size:30px; width:400px;">
-				            	<p transition="fadeIn">Era uma vez um pequeno cavaleiro que recebeu uma carta de um amigo.</p>
-				        	</div>
-							<target start="inicio#text2">
+							<change-state target="text2"/>
 						</on-touch>
 					</state>
 					<state id="text2">
+						<div left="250" top="220" width="400" font-size="30" font-color="red">
+			            	<p transition="animated fadeIn" >Ele ficou muito muito muito surpreso, pois esse amigo tinha sumido a anos.</p>
+			        	</div>
 						<on-touch>
-							<div style="position: absolute; left: 250px; top: 220px; font-size:30px; width:400px;">
-				            	<p transition="fadeIn" >Ele ficou muito muito muito surpreso, pois esse amigo tinha sumido a anos.</p>
-				        	</div>
-							<target start="inicio#text3">
+							<change-state target="text3"/>
 						</on-touch>
 					</state>
 					<state id="text3">
+						<div left="250" top="220" width="400" font-size="30" font-color="brown">
+			           		<p transition="animated fadeIn">Só que as noticias na carta não eram muito boas. O seu amigo tinha contraído uma doença misteriosa e precisava 	de ajuda para pegar a cura.</p>
+			        	</div>
 						<on-touch>
-							<div style="position: absolute; left: 250px; top: 210px; font-size:30px; width:400px;">
-				           		<p transition="fadeIn">Só que as noticias na carta não eram muito boas. O seu amigo tinha contraído uma doença misteriosa e precisava 	de ajuda para pegar a cura.</p>
-				        	</div>
-							<target start="inicio#text4">
+							<change-state target="text4"/>
 						</on-touch>
 					</state>
 					<state id="text4">
-						<on-touch>
-							<img src="graphics/sign2.png" x="600" y="500" transition="tada">
-							<target start="page#2">
-						</on-touch>
-						<div style="position: absolute; left: 250px; top: 220px; font-size:30px; width:400px;">
-				        	<p transition="fadeIn">O mais rápido que pôde ele foi ao encontro desse amigo.</p>
+						<div left="250" top="220" width="400" font-size="30" font-color="green">
+				        	<p transition="animated fadeIn">O mais rápido que pôde ele foi ao encontro desse amigo.</p>
 				        </div>
+				        <trigger agent="placa" change-state="mostrar"></trigger>
 					</state>
 				</agent>
-				<img src="graphics/block.png" x="90"  y="421"/>
+
+				<agent id="placa">
+					<state id="nao_mostrar">
+					</state>
+					<state id="mostrar">
+						<img src="graphics/sign2.png" left="600" top="500" transition="animated infinite tada">
+						<on-touch>
+							<emit event="next_page"></emit>
+						</on-touch>	
+					</state>
+				</agent>
 			</page>
 			<!--Página 2--Entrada da Caverna-->
 			<page id="2" bg-image="graphics/BG.png">
-				<property name="hasKey" value="false">
-				<img id="bloco" src="graphics/block.png" width="480" height="500" x="300" y="300"/>
-				<img src="graphics/char1.png" width="100" height="130" x="100" y="430"></img>
-				<img id="floor" src="graphics/block.png" style="left: 0px; top: 550px; width: 800px ; height: 100px"/>
-				<agent id="bush1">
-					<state id="verifica">
-						<div style="position: absolute; left: 300px; top: 50px; font-size:30px; width:500px;">
-							<p>Após sete dias e sete noite de viagem, o cavaleiro chegou a caverna.
-							   Agora precisa encontrar a chave da entrada que está escondida na vegetação local.</p>
-						</div>
-						<on-touch>
-							<img id="um" src="graphics/bush.png" x="50" y="505"/>
-							<audio id="audioTeste" src="graphics/bush_sound.wav" role="play"></audio>
-							<set target="hasKey" value="true"></set>
-							<target start="bush1#verificado">
-						</on-touch>
+				
+				<img id="bloco" src="graphics/block.png" width="480" height="500" left="300" top="300"/>
+				<img src="graphics/char1.png" width="100" height="130" left="100" top="430"></img>
+				<img id="floor" src="graphics/block.png" top="550" width="800" height="100"/>
+
+				<agent id="key">
+					<property name="hasKey" value="false">
+					<state id="sumida">
 					</state>
-					<state id="verificado">
-						<div style="position: absolute; left: 300px; top: 50px; font-size:30px; width:500px;">
-							<p transition="tada">Legal!! Você encontrou o chave!! Arraste-a até a porta para abri-la.</p>
-						</div>
-						<img id="keyEntrada" src="graphics/key.png" draggable x="150" y="305" width="40" height="20">
+					<state id="achada">
+						<img transition="animated fadeIn" id="keyEntrada" src="graphics/key.png" draggable left="150" top="305" width="40" height="20">
 						<on-touch>
-							<alert on-start="true">chave encontrada!</alert>
-							<img id="um" src="graphics/bush.png" x="50" y="505"/>
+							<set target="hasKey" value="true"></set>
 						</on-touch>
 					</state>
 				</agent>
+				
+				<agent id="textoPagina2">
+					<state id="texto1">
+						<div left="300" top="50" font-size="30" width="500">
+							<p>Após sete dias e sete noite de viagem, o cavaleiro chegou a caverna.
+							   Agora precisa encontrar a chave da entrada que está escondida na vegetação local.</p>
+						</div>		
+					</state>
+					<state id="texto2">
+						<div left="300" top="50" width="500" font-size="50">
+							<p transition="animated jello">Legal!! Você encontrou o chave!! Arraste-a até a porta para abri-la.</p>
+						</div>		
+					</state>
+				</agent>
+
+				<agent id="bush1">
+					<state id="verifica">
+						<img id="um"  src="graphics/bush.png" left="50" top="505"/>
+						<on-touch>
+							<audio id="audioTeste" src="graphics/bush_sound.wav" role="play"></audio>
+							<change-state target="verificado"/>	
+						</on-touch>
+					</state>
+					<state id="verificado">
+						<trigger agent="key" change-state="achada"></trigger>
+						<trigger agent="textoPagina2" change-state="texto2"></trigger>
+						<on-touch>
+							<alert on-start="true">chave encontrada!</alert>
+							<img id="um" transition="animated tada" src="graphics/bush.png" left="50" top="505"/>
+						</on-touch>
+					</state>
+				</agent>
+
 				<agent id="bush2">
 					<state id="verifica">
 						<on-touch>
-							<img id="um" src="graphics/bush.png" x="150" y="505"/>
-							<alert>não tem nada aqui!</alert>
-							<target start="bush2#verificado">
+							<img id="um" src="graphics/bush.png" left="150" top="505"/>
+							<change-state target="verificado">
 						</on-touch>
 					</state>
 					<state id="verificado">
 						<on-touch>
 							<audio id="audioTeste" src="graphics/bush_sound.wav" role="play"></audio>
-							<img id="um" src="graphics/bush.png" x="150" y="505"/>
-							<alert>já olhei</alert>
+							<img id="um" src="graphics/bush.png" left="150" top="505"/>
+							<alert>não tem nada aqui</alert>
 						</on-touch>
 					</state>
 				</agent>
+				
 				<agent id="door">
 					<state id="fechada">
-						<detect target="keyEntrada" event="changeState" of="door" for="aberta" x="400" y="400" w="80" h="140">
-						</detect>
-						<img id="porta_fechada" src="graphics/DoorLocked.png" x="400" y="400" width="80" height="140"/>
+						<img id="porta_fechada" src="graphics/DoorLocked.png" left="400" top="400" width="80" height="140"/>
+						<detect target="keyEntrada" agent="door" change-state="aberta"></detect>
 					</state>
 					<state id="aberta">
 						<on-touch>
-							<img id="porta_fechada" src="graphics/DoorOpen.png" x="400" y="400" width="80" height="140"/>
-							<target start="page#3">
+							<img id="porta_fechada" src="graphics/DoorOpen.png" left="400" top="400" width="80" height="140"/>
+							<emit event="next_page"></emit>
 						</on-touch>	
 					</state>
 				</agent>
 			</page>
 			<!--Página 3--Caverna-->
 			<page id="3"  bg-image="graphics/BGcavern.png">
-				<img id="floor" src="graphics/cavern_floor.png" x="0" y="550" width="800" height="100"/>
-				<board id="placa1" set-class="classic-board" font-size="20px" x="100" y="100" width="300" color="white">
-					Ao entra na caverno o cavaleiro avista duas portas uma a esquerda que parece dar em um caminho sem saida e outra
+				<img id="floor" src="graphics/cavern_floor.png" left="0" top="550" width="800" height="100"/>
+				<board id="placa1" set-class="classic-board" font-size="20px" left="100" top="100" width="300" font-color="white">
+					Ao entra na caverna o cavaleiro avista duas portas uma a esquerda que parece dar em um caminho sem saida e outra
 					com um foco de luz bem baixo.
 				</board>
-				<img src="graphics/char1.png" width="100" height="130" style="position: absolute; left: 300px; top: 440px"></img>
+				<img src="graphics/char1.png" width="100" height="130" left="300" top="440"></img>
 				<agent id="porta_esquerda">
 					<state>
 						<on-touch>
-							<img id="porta_esquerda" src="graphics/DoorLocked.png" x="50" y="400" width="80" height="140"/>
-							<target start="page#4">
+							<img id="porta_esquerda" src="graphics/DoorLocked.png" left="50" top="400" width="80" height="140"/>
+							<emit event="goto_page" number="4"></emit>
 							<play type="audio" src="graphics/door_effect.wav">
 						</on-touch>
 					</state>
@@ -132,8 +161,8 @@
 				<agent id="porta_direita">
 					<state>
 						<on-touch>
-							<img id="porta_esquerda" src="graphics/DoorLocked.png" x="550" y="400" width="80" height="140"/>
-							<target start="page#5">
+							<img id="porta_esquerda" src="graphics/DoorLocked.png" left="550" top="400" width="80" height="140"/>
+							<emit event="goto_page" number="5"></emit>
 							<play type="audio" src="graphics/door_effect.wav">
 						</on-touch>
 					</state>
@@ -141,58 +170,78 @@
 			</page>
 			<!--Página 4--Caixas-->
 			<page id="4" bg-image="graphics/BGcavern.png">
-			<board set-class="classic-board" x="130" y="60" width="300" color="white">
+			<board font-size="25" left="130" top="60" width="300" font-color="white">
 					Um armazém cheio de caixas o que será que tem dentro delas?(clique nas caixas para vasculha-las.)
 			</board>
-			<property name="antidote" value="false">
-			<img id="floor" src="graphics/cavern_floor.png" style="position: absolute; left: 0px; top: 550px; width: 800px ; height: 100px"/>
-			<img src="graphics/char1.png" width="100" height="130" style="position: absolute; left: 200px; top: 430px"/>
+			
+			<img id="floor" src="graphics/cavern_floor.png" left="0" top="550" width="800" height="100"/>
+			<img src="graphics/char1.png" width="100" height="130" left="200" top="430"/>
 			<agent id="caixa1">
 				<state id="fechada">
 					<on-touch>
-						<img id="caixa" src="graphics/box.png" x="200" y="200" width="120" height="120">
-						<target start="caixa1#aberta">
+						<img id="caixa" src="graphics/box.png" left="200" top="200" width="120" height="120">
+						<change-state target="aberta"></change-state>
 					</on-touch>
 				</state>
 				<state id="aberta">
-					<img transition="fadeOut" id="caixa" src="graphics/box.png" x="200" y="200" width="120" height="120"/>
+					<img transition="animated fadeOut" id="caixa" src="graphics/box.png" left="200" top="200" width="120" height="120"/>
 				</state>
 			</agent>
+			
+			<agent id="elixir">
+				<property name="antidote" value="false">
+				<state id="perdido">
+				</state>
+				<state id="encontrado">
+					<img  transition="animated fadeIn" src="graphics/mush.png" left="600" top="200" width="60" height="60"/>
+					<on-touch>
+						<set target="antidote" value="true"></set>
+					</on-touch>
+				</state>
+			</agent>
+
+			<agent id="avisoElixir">
+				<state id="elixirPerdido">
+					
+				</state>
+				<state id="elixirEncontrado">
+					<board transition="animated fadeIn" set-class="classic-board" left="400" top="10" font-color="white">
+						Elixir encontrado
+					</board>
+				</state>
+			</agent>
+
 			<agent id="caixa2">
 				<state id="fechada">
 					<on-touch>
-						<set target="antidote" value="true"></set>
-						<img id="caixa" src="graphics/box.png" x="600" y="200" width="120" height="120">
-						<target start="caixa2#aberta"></target>
+						<img id="caixa" src="graphics/box.png" left="600" top="200" width="120" height="120">
+						<change-state target="aberta"></change-state>
 					</on-touch>
 				</state>
 				<state id="aberta">
-					<img transition="fadeOut" id="caixa" src="graphics/box.png" x="600" y="200" width="120" height="120"/>
-					<on-touch>
-						<img  src="graphics/mush.png" x="600" y="200" width="60" height="60"/>
-						<alert>Elixir encontrado</alert>
-						<target start="elixir#encontrado"></target>
-					</on-touch>
+					<img transition="animated fadeOut" id="caixa" src="graphics/box.png" left="600" top="200" width="120" height="120"/>
+					<trigger agent="elixir" change-state="encontrado"></trigger>
+					<trigger agent="avisoElixir" change-state="elixirEncontrado"></trigger>
 				</state>
 			</agent>
 			
 			<agent id="caixa3">
 				<state id="fechada">
 					<on-touch>
-						<img id="caixa" src="graphics/box.png"  x="350" y="350" width="120" height="120">
-						<alert>caixa vazia</alert>
-						<target start="caixa3#aberta">
+						<img id="caixa" src="graphics/box.png"  left="350" top="350" width="120" height="120">
+						<change-state target="aberta"></change-state>
 					</on-touch>
 				</state>
 				<state id="aberta">
-					<img id="caixa" src="graphics/box.png" transition="fadeOut" x="350" y="350" width="120" height="120">
+					<img id="caixa" src="graphics/box.png" transition="animated fadeOut" left="350" top="350" width="120" height="120">
 				</state>
 			</agent>
+			
 			<agent id="porta_esquerda">
 				<state>
 					<on-touch>
-						<img id="porta_esquerda" src="graphics/DoorOpen.png" x="50" y="400" width="80" height="140"/>
-						<target start="page#3">
+						<img id="porta_esquerda" src="graphics/DoorOpen.png" left="50" top="400" width="80" height="140"/>
+						<emit event="goto_page" number="3"></emit>
 					</on-touch>
 				</state>
 			</agent>
@@ -200,28 +249,42 @@
 			</page>
 			<!--Página 5--Saida-->
 			<page id="5" bg-image="graphics/graveyard.png">
-			<img id="floor" src="graphics/futuretile.png" x="0" y="550" width="800" height="100"/>
-			<img src="graphics/char1.png" width="100" height="130" x="200" y="430"/>
-			<agent id="amigo">
-				<state id="parado">
-					<board set-class="classic-board" font-size="30px" x="200" y="100" width="200" color="white">
+			<img id="floor" src="graphics/futuretile.png" left="0" top="550" width="800" height="100"/>
+			<img src="graphics/char1.png" width="100" height="130" left="200" top="430"/>
+			
+			<agent id="boardAmigo">
+				<state id="antesClick">
+					<board font-size="30" left="200" top="100" width="200" color="white">
 						Clique no zombie para ver o que acontece.
 					</board>
+				</state>
+				<state id="comElixir">
+					<board width="400"  left="200" top="100" color="white">
+						Você me salvou primeiro cavaleiro!! Obrigado!!
+					</board>
+				</state>
+				<state id="semElixir">
+					<board width="400" height="200" left="200" top="100" color="white">
+						Oh não você esqueceu o elixir!! Morrir!!
+					</board>
+				</state>
+			</agent>
+
+			<agent id="amigo">
+				<state id="parado">
 					<on-touch>
-						<img id="zombie" src="graphics/zombie.png" x="600" y="430" width="100" height="130"/>
+						<img id="zombie" src="graphics/zombie.png" left="600" top="430" width="100" height="130"/>
 						<test target="antidote" value="true">
-							<shout execute="changeState" target="amigo#vivo"/>
+							<execute action="changeState" target="vivo"></execute>
 						</test>
 						<test target="antidote" value="false">
-							<shout execute="changeState" target="amigo#morto"/>
+							<execute action="changeState" target="morto"></execute>
 						</test>
 					</on-touch> 
 				</state>
 				<!--estado do amigo voltando a vida-->
 				<state id="vivo">
-					<board set-class="classic-board" width="400"  x="200" y="100" color="white">
-						Você me salvou primeiro cavaleiro!! Obrigado!!
-					</board>
+					<trigger agent="boardAmigo" change-state="comElixir" ></trigger>
 					<animation speed="50" y="430" x="600" repeat="yes" width="100" height="130">
 						<img src="graphics/animation-jump/Idle1.png"></img>
 						<img src="graphics/animation-jump/Idle2.png"></img>
@@ -237,10 +300,8 @@
 				</state>
 				<!--estado do amigo morrendo-->
 				<state id="morto">
-					<board set-class="classic-board" width="400" x="200" y="100" color="white">
-						Oh não você esqueceu o elixir!! Morrir!!
-					</board>
-					<animation speed="10" y="430" x="600" repeat="no" width="100" height="130">
+					<trigger agent="boardAmigo" change-state="semElixir"></trigger>
+					<animation speed="10" x="600" y="430" repeat="no" width="100" height="130">
 						<img src="graphics/animation-dead/dead1.png"></img>
 						<img src="graphics/animation-dead/dead2.png"></img>
 						<img src="graphics/animation-dead/dead3.png"></img>
